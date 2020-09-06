@@ -384,21 +384,6 @@ def parse_qa_label_txt(
     """Entry point of parsing of txt file"""
     label_file_is_valid = True
 
-    global platform_prefix
-
-    if str(txt_fp.stem).startswith("bilibili"):
-        platform_prefix = "b_"
-    elif str(txt_fp.stem).startswith("youtube"):
-        platform_prefix = "y_"
-    elif str(txt_fp.stem).startswith("unlabelled"):
-        platform_prefix = ""
-    else:
-        logger.error(f"Unexpected file name: {txt_fp}")
-        logger.error(
-            f"Please rename your label file to the Video Folder Name first before parsing it. (e.g. unlabelled_008, bilibili_020)"
-        )
-        return
-
     # store parsed result
     qa_label_lst: List[Dict] = []
     # ensure txt file path is valid
@@ -415,6 +400,23 @@ def parse_qa_label_txt(
     if str(txt_fp)[-4:] != ".txt":
         logger.error(f"Argument txt_fp requires a txt filepath")
         return
+
+    global platform_prefix
+
+    if str(txt_fp.stem).startswith("bilibili"):
+        platform_prefix = "b_"
+    elif str(txt_fp.stem).startswith("youtube"):
+        platform_prefix = "y_"
+    elif str(txt_fp.stem).startswith("unlabelled"):
+        platform_prefix = ""
+    else:
+        logger.error(f"Unexpected file name: {txt_fp}")
+        logger.error(
+            f"Please rename your label file to the Video Folder Name first before parsing it. (e.g. unlabelled_008, bilibili_020)"
+        )
+        return
+
+    ########################################################
 
     local_qa_pool = None
     if local_qa_bank_fp:
