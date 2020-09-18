@@ -155,7 +155,14 @@ def qa_section_parser(
                 if line:
                     option = line.strip()
                     option = replace_slash_with_or(option)
-                    option_lst.append(option)
+                    if ">" in option:
+                        continue
+                    if "{" in option:
+                        continue
+                    if "}" in option:
+                        continue
+                    if option != "":
+                        option_lst.append(option)
 
     # check for correct ans marked with '+'
     for index, option in enumerate(option_lst):
@@ -188,6 +195,9 @@ def qa_section_parser(
         if not q_sub_id and not q_body:
             _is_valid = False
             logger.error("Missing Question Line")
+
+    if len(option_lst) < 2:
+        q_ignore = True
 
     # store parsed data
     qa_section_data: Dict = {
