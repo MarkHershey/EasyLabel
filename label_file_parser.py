@@ -24,6 +24,20 @@ def get_value(line: str) -> str:
         value = None
     return value
 
+def replace_slash_with_or(string:str) -> str:
+    if string == None:
+        return
+    if string == "":
+        return ""
+    assert isinstance(string, str)
+    slash_index = 0
+    while slash_index != -1:
+        slash_index = string.find("/")
+        if slash_index == -1:
+            break
+        else:
+            string = string[:slash_index].strip() + " or " + string[slash_index+1:].strip()
+    return string
 
 def qa_section_parser(
     qa_section: List, local_qa_pool: QASetPool = None
@@ -127,6 +141,7 @@ def qa_section_parser(
                 # not using identifier here to flag missing "?" error
                 # non-empty line with a question mark, this should be the question line
                 q_body = line.strip()
+                q_body = replace_slash_with_or(q_body)
             elif q_sub_id and any(
                 identifier in line for identifier in qu_identifier_list
             ):
@@ -138,7 +153,9 @@ def qa_section_parser(
             else:
                 # non-empty line: this should be an option to the question
                 if line:
-                    option_lst.append(line.strip())
+                    option = line.strip()
+                    option = replace_slash_with_or(option)
+                    option_lst.append(option)
 
     # check for correct ans marked with '+'
     for index, option in enumerate(option_lst):
@@ -500,7 +517,7 @@ def parse_qa_label_txt(
 if __name__ == "__main__":
     import sys
 
-    LABEL_FILE = "REPLACE ME"
+    LABEL_FILE = "/Users/mark/Downloads/Label_Files/bilibili_067.txt"
     QA_BANK_JSON_FILE = None  # Optional
 
     if len(sys.argv) == 1:
