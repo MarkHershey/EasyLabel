@@ -140,7 +140,7 @@ def qa_section_parser(
             if not q_sub_id and "?" in line:
                 # not using identifier here to flag missing "?" error
                 # non-empty line with a question mark, this should be the question line
-                q_body = line.strip()
+                q_body = line.strip().capitalize()
                 q_body = replace_slash_with_or(q_body)
             elif q_sub_id and any(
                 identifier in line for identifier in qu_identifier_list
@@ -153,7 +153,7 @@ def qa_section_parser(
             else:
                 # non-empty line: this should be an option to the question
                 if line:
-                    option = line.strip()
+                    option = line.strip().capitalize()
                     option = replace_slash_with_or(option)
                     if ">" in option:
                         continue
