@@ -171,7 +171,7 @@ def qa_section_parser(
             # remove "+" sign from line
             ans: str = option.strip("+").strip()
             # Update option
-            option_lst[index] = ans
+            option_lst[index] = ans.capitalize()
 
     # check once again
     for index in ans_indexes:
