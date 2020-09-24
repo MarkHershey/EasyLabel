@@ -6,6 +6,7 @@ from commonutils import *
 from label_file_parser import parse_qa_label_txt
 
 BASE_DIR = Path("/Users/mark/Downloads/Label_Files")
+BASE_DIR = Path("/Users/mark/Documents/Final_Label_Files/61Folders_txt")
 
 
 def main():
@@ -13,7 +14,9 @@ def main():
     invalid_files = []
     for filename in os.listdir(BASE_DIR):
         labelfile: Path = BASE_DIR / filename
-        assert labelfile.is_file()
+        if not labelfile.is_file():
+            logger.info(f"Skip {labelfile}")
+            continue
 
         if str(labelfile).endswith(".txt"):
             print(labelfile, "\n")
